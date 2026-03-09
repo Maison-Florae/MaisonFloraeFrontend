@@ -7,6 +7,19 @@ It is what people see in the browser.
 
 1. Node.js (version 20 or newer): https://nodejs.org/
 2. npm (comes with Node.js)
+3. A terminal to run commands
+
+Terminal options:
+
+- VS Code integrated terminal (recommended): no extra install needed
+- Windows PowerShell
+- Windows CMD
+- Git Bash
+
+If you use VS Code, open terminal with:
+
+- `Terminal` -> `New Terminal`
+- Shortcut: `Ctrl + \``
 
 Check both are installed:
 
