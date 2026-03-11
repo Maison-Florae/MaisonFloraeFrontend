@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "vite --host --port 3000",
+    "dev": "vite --port 3000 --strictPort",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "vite --host --port 3000"
+    "start": "vite --port 3000 --strictPort"
   },
   "repository": {
     "type": "git",
