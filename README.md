@@ -68,4 +68,4 @@ npm run dev
 - Error after install:
 	Delete `node_modules` and run `npm install` again.
 - Browser page does not load:
-	Make sure terminal is still running and check the URL it prints.
+	Make sure terminal is still running and check the URL it prints.  
