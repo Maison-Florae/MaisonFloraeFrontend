@@ -1,4 +1,4 @@
-# MaisonFlorae Frontend (Beginner Guide)
+# MaisonFlorae Frontend 
 
 This is the website part of MaisonFlorae.
 It is what people see in the browser.
