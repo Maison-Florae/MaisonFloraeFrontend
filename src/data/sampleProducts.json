@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Linen Flower Bucket",
+    "description": "A matte ceramic bucket in warm linen tones, perfect for dried stems or fresh flowers.",
+    "price": 34,
+    "imageUrl": "https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=1200&q=80",
+    "category": "flower-buckets",
+    "inStock": true
+  },
+  {
+    "name": "Sage Enamel Flower Pail",
+    "description": "Vintage inspired enamel pail with a soft sage finish and curved handle.",
+    "price": 27,
+    "imageUrl": "https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80",
+    "category": "flower-buckets",
+    "inStock": true
+  },
+  {
+    "name": "Terracotta Bloom Bucket",
+    "description": "Hand-finished terracotta flower bucket with a textured natural surface.",
+    "price": 39,
+    "imageUrl": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1200&q=80",
+    "category": "flower-buckets",
+    "inStock": false
+  },
+  {
+    "name": "Petite Rose Bucket",
+    "description": "Compact decorative bucket made for bedside roses and mini arrangements.",
+    "price": 22,
+    "imageUrl": "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=1200&q=80",
+    "category": "flower-buckets",
+    "inStock": true
+  },
+  {
+    "name": "Olive Garden Bucket",
+    "description": "A wider profile bucket designed for abundant garden clippings and peonies.",
+    "price": 41,
+    "imageUrl": "https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=1200&q=80",
+    "category": "flower-buckets",
+    "inStock": true
+  },
+  {
+    "name": "Monstera Deliciosa",
+    "description": "Lush split-leaf Monstera in a woven basket pot, medium size.",
+    "price": 48,
+    "imageUrl": "https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&w=1200&q=80",
+    "category": "plants",
+    "inStock": true
+  },
+  {
+    "name": "Calathea Orbifolia",
+    "description": "Striped tropical foliage plant with broad leaves and calming silver tones.",
+    "price": 36,
+    "imageUrl": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1200&q=80",
+    "category": "plants",
+    "inStock": true
+  },
+  {
+    "name": "Pilea Peperomioides",
+    "description": "Playful coin-leaf plant that brings a fresh pop of green to shelves.",
+    "price": 19,
+    "imageUrl": "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=80",
+    "category": "plants",
+    "inStock": false
+  },
+  {
+    "name": "Lavender Pot",
+    "description": "Fragrant lavender plant in a rustic clay pot for sunny windows.",
+    "price": 24,
+    "imageUrl": "https://images.unsplash.com/photo-1470163395405-d2b80e7450ed?auto=format&fit=crop&w=1200&q=80",
+    "category": "plants",
+    "inStock": true
+  },
+  {
+    "name": "Ficus Lyrata",
+    "description": "Statement fiddle leaf fig with glossy leaves for living room corners.",
+    "price": 62,
+    "imageUrl": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1200&q=80",
+    "category": "plants",
+    "inStock": true
+  }
+]
