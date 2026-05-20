@@ -47,6 +47,9 @@ export function MainLayout() {
               <NavLink to="/cart" className={navLinkClassName}>
                 Basket
               </NavLink>
+              <NavLink to="/admin/products" className={navLinkClassName}>
+                Admin
+              </NavLink>
             </nav>
 
             <Link
@@ -83,6 +86,12 @@ export function MainLayout() {
             </Link>
             <Link to="/cart" className="transition-colors hover:text-brand-forest">
               Review your basket
+            </Link>
+            <Link
+              to="/admin/products"
+              className="transition-colors hover:text-brand-forest"
+            >
+              Manage products
             </Link>
           </div>
         </div>

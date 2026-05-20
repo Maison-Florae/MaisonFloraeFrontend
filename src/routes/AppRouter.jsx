@@ -6,6 +6,8 @@ import { ProductDetailsPage } from "../pages/ProductDetailsPage";
 import { CartPage } from "../pages/CartPage";
 import { CheckoutPage } from "../pages/CheckoutPage";
 import { OrderConfirmationPage } from "../pages/OrderConfirmationPage";
+import { AdminProductsPage } from "../pages/AdminProductsPage";
+import { AdminProductFormPage } from "../pages/AdminProductFormPage";
 
 export function AppRouter() {
   return (
@@ -17,6 +19,15 @@ export function AppRouter() {
           <Route path="/products/:id" element={<ProductDetailsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/admin/products" element={<AdminProductsPage />} />
+          <Route
+            path="/admin/products/new"
+            element={<AdminProductFormPage mode="create" />}
+          />
+          <Route
+            path="/admin/products/:id/edit"
+            element={<AdminProductFormPage mode="edit" />}
+          />
           <Route
             path="/order-confirmation/:orderId"
             element={<OrderConfirmationPage />}

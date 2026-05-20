@@ -37,3 +37,28 @@ export function mapProductToCartItem(product, quantity = 1) {
     inStock: normalizedProduct.inStock,
   };
 }
+
+export function getProductFormValues(product = {}) {
+  return {
+    name: product.name || "",
+    description: product.description || "",
+    price:
+      product.price === 0 || product.price
+        ? String(product.price)
+        : "",
+    imageUrl: product.imageUrl || "",
+    category: product.category || "general",
+    inStock: product.inStock !== false,
+  };
+}
+
+export function buildProductPayload(formValues = {}) {
+  return {
+    name: formValues.name?.trim() || "",
+    description: formValues.description?.trim() || "",
+    price: Number(formValues.price),
+    imageUrl: formValues.imageUrl?.trim() || "",
+    category: formValues.category?.trim() || "general",
+    inStock: Boolean(formValues.inStock),
+  };
+}
