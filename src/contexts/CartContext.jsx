@@ -26,13 +26,35 @@ function readStoredCart() {
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(readStoredCart);
+  const [recentlyAddedItem, setRecentlyAddedItem] = useState(null);
 
   useEffect(() => {
     window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
   }, [cartItems]);
 
+  useEffect(() => {
+    if (!recentlyAddedItem) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setRecentlyAddedItem(null);
+    }, 2400);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [recentlyAddedItem]);
+
   function addItem(product, quantity = 1) {
     const nextItem = mapProductToCartItem(product, quantity);
+
+    setRecentlyAddedItem({
+      name: nextItem.name,
+      quantity: nextItem.quantity,
+      productId: nextItem.productId,
+      timestamp: Date.now(),
+    });
 
     setCartItems((currentItems) => {
       const existingItem = currentItems.find(
@@ -91,6 +113,10 @@ export function CartProvider({ children }) {
     setCartItems([]);
   }
 
+  function dismissRecentlyAddedItem() {
+    setRecentlyAddedItem(null);
+  }
+
   function getItemQuantity(productId) {
     return (
       cartItems.find((item) => item.productId === productId)?.quantity || 0
@@ -111,6 +137,8 @@ export function CartProvider({ children }) {
         removeItem,
         clearCart,
         getItemQuantity,
+        recentlyAddedItem,
+        dismissRecentlyAddedItem,
       }}
     >
       {children}

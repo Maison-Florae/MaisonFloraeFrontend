@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 import { formatPrice } from "../utils/price";
@@ -5,7 +6,27 @@ import { getCategoryLabel } from "../utils/product";
 
 export function ProductCard({ product }) {
   const { addItem } = useCart();
+  const [isRecentlyAdded, setIsRecentlyAdded] = useState(false);
   const { id, name, description, price, imageUrl, category, inStock } = product;
+
+  useEffect(() => {
+    if (!isRecentlyAdded) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIsRecentlyAdded(false);
+    }, 1600);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [isRecentlyAdded]);
+
+  function handleAddToBasket() {
+    addItem(product);
+    setIsRecentlyAdded(true);
+  }
 
   return (
     <article className="overflow-hidden rounded-[2rem] border border-brand-clay/35 bg-white/90 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
@@ -51,11 +72,18 @@ export function ProductCard({ product }) {
           </Link>
           <button
             type="button"
-            onClick={() => addItem(product)}
+            onClick={handleAddToBasket}
             disabled={!inStock}
-            className="inline-flex items-center justify-center rounded-full bg-brand-forest px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-brand-cream transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-brand-sage/45"
+            className={[
+              "inline-flex items-center justify-center rounded-full px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-brand-cream transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-brand-sage/45",
+              isRecentlyAdded ? "bg-emerald-700" : "bg-brand-forest",
+            ].join(" ")}
           >
-            {inStock ? "Add to basket" : "Unavailable"}
+            {inStock
+              ? isRecentlyAdded
+                ? "Added to basket"
+                : "Add to basket"
+              : "Unavailable"}
           </button>
         </div>
       </div>

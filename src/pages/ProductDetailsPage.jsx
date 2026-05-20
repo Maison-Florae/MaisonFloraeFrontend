@@ -13,6 +13,7 @@ export function ProductDetailsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [isRecentlyAdded, setIsRecentlyAdded] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -49,6 +50,25 @@ export function ProductDetailsPage() {
   useEffect(() => {
     setQuantity(1);
   }, [product?.id]);
+
+  useEffect(() => {
+    if (!isRecentlyAdded) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIsRecentlyAdded(false);
+    }, 1800);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [isRecentlyAdded]);
+
+  function handleAddToBasket() {
+    addItem(product, quantity);
+    setIsRecentlyAdded(true);
+  }
 
   if (isLoading) {
     return (
@@ -131,12 +151,26 @@ export function ProductDetailsPage() {
 
           <button
             type="button"
-            onClick={() => addItem(product, quantity)}
+            onClick={handleAddToBasket}
             disabled={!product.inStock}
-            className="inline-flex w-full items-center justify-center rounded-full bg-brand-forest px-5 py-3 text-sm font-semibold text-brand-cream transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-brand-sage/45"
+            className={[
+              "inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-brand-cream transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-brand-sage/45",
+              isRecentlyAdded ? "bg-emerald-700" : "bg-brand-forest",
+            ].join(" ")}
           >
-            {product.inStock ? "Add to basket" : "Unavailable for order"}
+            {product.inStock
+              ? isRecentlyAdded
+                ? "Added to basket"
+                : "Add to basket"
+              : "Unavailable for order"}
           </button>
+
+          {product.inStock && isRecentlyAdded && (
+            <p className="text-sm font-medium text-emerald-800">
+              {quantity} {quantity === 1 ? "item has" : "items have"} been
+              added to your basket.
+            </p>
+          )}
         </div>
 
         <div className="rounded-[1.8rem] border border-brand-clay/20 bg-white/70 p-5">

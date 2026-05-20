@@ -2,7 +2,7 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 
 export function MainLayout() {
-  const { itemCount } = useCart();
+  const { itemCount, recentlyAddedItem, dismissRecentlyAddedItem } = useCart();
   const navLinkClassName = ({ isActive }) =>
     [
       "rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] transition-colors",
@@ -64,6 +64,51 @@ export function MainLayout() {
           </div>
         </div>
       </header>
+
+      {recentlyAddedItem && (
+        <div className="pointer-events-none fixed bottom-5 right-5 z-30 w-[min(24rem,calc(100vw-2rem))]">
+          <div className="pointer-events-auto rounded-[1.6rem] border border-emerald-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+            <div className="flex items-start justify-between gap-3">
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+                  Added to basket
+                </p>
+                <p className="text-sm font-semibold text-brand-ink">
+                  {recentlyAddedItem.quantity} x {recentlyAddedItem.name}
+                </p>
+                <p className="text-sm text-brand-sage">
+                  Your basket now reflects the latest selection.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={dismissRecentlyAddedItem}
+                className="rounded-full border border-brand-clay/25 px-2.5 py-1 text-xs font-semibold text-brand-sage transition-colors hover:bg-brand-petal"
+                aria-label="Dismiss basket notification"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                to="/cart"
+                className="inline-flex items-center justify-center rounded-full bg-brand-forest px-4 py-2 text-sm font-semibold text-brand-cream transition-transform hover:-translate-y-0.5"
+              >
+                View basket
+              </Link>
+              <button
+                type="button"
+                onClick={dismissRecentlyAddedItem}
+                className="inline-flex items-center justify-center rounded-full border border-brand-clay/35 px-4 py-2 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-petal"
+              >
+                Keep browsing
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <main className="mx-auto w-full max-w-6xl px-6 py-12">
         <Outlet />
