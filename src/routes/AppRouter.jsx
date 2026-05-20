@@ -3,6 +3,9 @@ import { MainLayout } from "../layouts/MainLayout";
 import { HomePage } from "../pages/HomePage";
 import { ProductsPage } from "../pages/ProductsPage";
 import { ProductDetailsPage } from "../pages/ProductDetailsPage";
+import { CartPage } from "../pages/CartPage";
+import { CheckoutPage } from "../pages/CheckoutPage";
+import { OrderConfirmationPage } from "../pages/OrderConfirmationPage";
 
 export function AppRouter() {
   return (
@@ -12,6 +15,12 @@ export function AppRouter() {
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductDetailsPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route
+            path="/order-confirmation/:orderId"
+            element={<OrderConfirmationPage />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

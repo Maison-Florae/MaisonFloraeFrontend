@@ -5,9 +5,15 @@ export default {
     extend: {
       colors: {
         brand: {
-          cream: "#f8f4ec",
-          clay: "#c9a67a",
-          forest: "#1f3b2f",
+          cream: "#fbf6f1",
+          mist: "#f7efe8",
+          petal: "#f3e9e5",
+          blush: "#e7d4cd",
+          clay: "#c79d79",
+          gold: "#b48a57",
+          forest: "#223127",
+          sage: "#677364",
+          ink: "#18211b",
         },
       },
     },

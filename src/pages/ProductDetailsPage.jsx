@@ -1,20 +1,18 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductById } from "../services/productService";
-
-function formatPrice(price) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-  }).format(Number(price || 0));
-}
+import { useCart } from "../contexts/CartContext";
+import { QuantitySelector } from "../components/QuantitySelector";
+import { formatPrice } from "../utils/price";
+import { getCategoryLabel } from "../utils/product";
 
 export function ProductDetailsPage() {
   const { id } = useParams();
+  const { addItem, getItemQuantity } = useCart();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     let isMounted = true;
@@ -48,9 +46,13 @@ export function ProductDetailsPage() {
     };
   }, [id]);
 
+  useEffect(() => {
+    setQuantity(1);
+  }, [product?.id]);
+
   if (isLoading) {
     return (
-      <div className="rounded-2xl border border-brand-clay/40 bg-white p-6 text-sm text-brand-forest/80">
+      <div className="rounded-[2rem] border border-brand-clay/40 bg-white/80 p-6 text-sm text-brand-sage">
         Loading product details...
       </div>
     );
@@ -59,53 +61,107 @@ export function ProductDetailsPage() {
   if (error || !product) {
     return (
       <div className="space-y-4">
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
+        <div className="rounded-[2rem] border border-red-200 bg-red-50 p-6 text-sm text-red-700">
           {error || "Product not found."}
         </div>
-        <Link to="/products" className="text-sm font-medium text-brand-forest underline">
-          Back to products
+        <Link
+          to="/products"
+          className="text-sm font-medium text-brand-forest underline decoration-brand-clay decoration-2 underline-offset-4"
+        >
+          Back to collection
         </Link>
       </div>
     );
   }
 
   return (
-    <article className="grid gap-8 lg:grid-cols-2 lg:items-start">
-      <div className="overflow-hidden rounded-2xl border border-brand-clay/40 bg-white">
+    <article className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] xl:items-start">
+      <div className="overflow-hidden rounded-[2rem] border border-brand-clay/35 bg-white/85 shadow-sm">
         {product.imageUrl ? (
           <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover" />
         ) : (
-          <div className="flex min-h-[320px] items-center justify-center bg-brand-clay/10 text-sm font-medium text-brand-forest/60">
-            Image not available
+          <div className="flex min-h-[320px] items-center justify-center bg-brand-petal text-sm font-medium text-brand-sage">
+            Image coming soon
           </div>
         )}
       </div>
 
-      <div className="space-y-4">
-        <p className="inline-block rounded-full bg-brand-clay/20 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em]">
-          {product.category || "general"}
+      <div className="space-y-6 rounded-[2rem] border border-brand-clay/30 bg-white/90 p-7 shadow-sm">
+        <p className="inline-flex rounded-full bg-brand-blush px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-forest">
+          {getCategoryLabel(product.category)}
         </p>
-        <h2 className="text-3xl font-semibold leading-tight sm:text-4xl">{product.name}</h2>
-        <p className="text-2xl font-semibold text-brand-forest">{formatPrice(product.price)}</p>
-        <p className="text-sm leading-relaxed text-brand-forest/80">
+        <div className="space-y-3">
+          <h1 className="text-4xl font-semibold leading-tight text-brand-ink sm:text-5xl">
+            {product.name}
+          </h1>
+          <p className="text-2xl font-semibold text-brand-forest">
+            {formatPrice(product.price)}
+          </p>
+        </div>
+        <p className="text-base leading-relaxed text-brand-sage">
           {product.description || "No description available."}
         </p>
 
         <p
           className={[
-            "inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]",
-            product.inStock ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-900",
+            "inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]",
+            product.inStock ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-900",
           ].join(" ")}
         >
-          {product.inStock ? "In stock" : "Out of stock"}
+          {product.inStock ? "Available for order" : "Currently unavailable"}
         </p>
 
-        <div>
+        <div className="space-y-4 rounded-[1.8rem] border border-brand-clay/25 bg-brand-cream/80 p-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-sage">
+                Quantity
+              </p>
+              <p className="mt-1 text-sm text-brand-sage">
+                Already in basket: {getItemQuantity(product.id)}
+              </p>
+            </div>
+            <QuantitySelector
+              value={quantity}
+              onDecrease={() => setQuantity((currentValue) => Math.max(1, currentValue - 1))}
+              onIncrease={() => setQuantity((currentValue) => currentValue + 1)}
+              disabled={!product.inStock}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => addItem(product, quantity)}
+            disabled={!product.inStock}
+            className="inline-flex w-full items-center justify-center rounded-full bg-brand-forest px-5 py-3 text-sm font-semibold text-brand-cream transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-brand-sage/45"
+          >
+            {product.inStock ? "Add to basket" : "Unavailable for order"}
+          </button>
+        </div>
+
+        <div className="rounded-[1.8rem] border border-brand-clay/20 bg-white/70 p-5">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-sage">
+            What to expect
+          </p>
+          <ul className="mt-3 space-y-2 text-sm leading-relaxed text-brand-sage">
+            <li>Submit your basket as an order request directly from checkout.</li>
+            <li>Delivery preferences and live payment are part of the next backend milestone.</li>
+            <li>The atelier pilot is based in Clichy and serves the Paris market.</li>
+          </ul>
+        </div>
+
+        <div className="flex flex-col gap-3 sm:flex-row">
           <Link
             to="/products"
-            className="inline-flex rounded-full border border-brand-forest/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-brand-forest transition-colors hover:bg-brand-forest hover:text-brand-cream"
+            className="inline-flex items-center justify-center rounded-full border border-brand-clay/45 px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-brand-forest transition-colors hover:bg-brand-petal"
           >
-            Back to products
+            Back to collection
+          </Link>
+          <Link
+            to="/cart"
+            className="inline-flex items-center justify-center rounded-full border border-brand-clay/45 px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-brand-forest transition-colors hover:bg-brand-petal"
+          >
+            View basket
           </Link>
         </div>
       </div>
